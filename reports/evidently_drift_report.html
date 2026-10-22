@@ -1,0 +1,93 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Bank Muscat EvidentlyAI Drift Report</title>
+        <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; background: #f8fafc; color: #1e293b; }
+            .card { background: white; padding: 24px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+            h1 { color: #1e3a8a; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th, td { padding: 12px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+            th { background-color: #f1f5f9; color: #334155; }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h1>🏦 Bank Muscat — EvidentlyAI Data Drift & Macroeconomic Telemetry Report</h1>
+            <p><strong>Status:</strong> ⚠️ DRIFT ALERT: Retraining Recommended</p>
+            <p><strong>Drifted Features:</strong> 3 / 6 (Two-Sample Kolmogorov-Smirnov Test, &alpha; = 0.01)</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Reference Mean</th>
+                        <th>Production Mean</th>
+                        <th>KS Statistic</th>
+                        <th>P-Value</th>
+                        <th>Drift Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr>
+            <td>person_age</td>
+            <td>27.687</td>
+            <td>27.835</td>
+            <td>0.0125</td>
+            <td>0.3868</td>
+            <td><span style='color:#16a34a;font-weight:bold;'>STABLE</span></td>
+        </tr>
+        
+        <tr>
+            <td>person_income</td>
+            <td>65762.943</td>
+            <td>57025.305</td>
+            <td>0.1198</td>
+            <td>0.0</td>
+            <td><span style='color:#dc2626;font-weight:bold;'>DRIFT DETECTED</span></td>
+        </tr>
+        
+        <tr>
+            <td>person_emp_length</td>
+            <td>4.773</td>
+            <td>4.817</td>
+            <td>0.0075</td>
+            <td>0.9354</td>
+            <td><span style='color:#16a34a;font-weight:bold;'>STABLE</span></td>
+        </tr>
+        
+        <tr>
+            <td>loan_amnt</td>
+            <td>9576.099</td>
+            <td>11705.283</td>
+            <td>0.1463</td>
+            <td>0.0</td>
+            <td><span style='color:#dc2626;font-weight:bold;'>DRIFT DETECTED</span></td>
+        </tr>
+        
+        <tr>
+            <td>loan_int_rate</td>
+            <td>11.029</td>
+            <td>13.447</td>
+            <td>0.2725</td>
+            <td>0.0</td>
+            <td><span style='color:#dc2626;font-weight:bold;'>DRIFT DETECTED</span></td>
+        </tr>
+        
+        <tr>
+            <td>cb_person_cred_hist_length</td>
+            <td>5.781</td>
+            <td>5.894</td>
+            <td>0.0151</td>
+            <td>0.1811</td>
+            <td><span style='color:#16a34a;font-weight:bold;'>STABLE</span></td>
+        </tr>
+        
+                </tbody>
+            </table>
+        </div>
+    </body>
+    </html>
+    

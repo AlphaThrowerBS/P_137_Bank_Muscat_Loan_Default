@@ -1,0 +1,6 @@
+@echo off
+echo Starting Bank Muscat FastAPI Backend...
+start cmd /k "call venv\Scripts\activate && uvicorn app.main:app --reload"
+timeout /t 3 /nobreak >nul
+echo Starting Bank Muscat Streamlit Portal...
+start cmd /k "call venv\Scripts\activate && streamlit run app/streamlit_app.py"

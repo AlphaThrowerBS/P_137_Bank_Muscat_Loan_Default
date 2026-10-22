@@ -1,0 +1,16 @@
+scikit-learn
+xgboost
+shap
+fastapi
+uvicorn
+pydantic
+sqlalchemy
+pandas
+numpy
+scipy
+joblib
+matplotlib
+requests
+streamlit
+mlflow
+psycopg2-binary
