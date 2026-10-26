@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+.git/
+mlruns/
+mlflow.db
+data/*.db
+data/processed_splits.pkl
+models/*.pkl

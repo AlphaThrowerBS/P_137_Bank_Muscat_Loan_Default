@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: bank_muscat_postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: bankpassword
+      POSTGRES_DB: bank_muscat_risk
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  risk_portal:
+    build: .
+    container_name: bank_muscat_p137_app
+    ports:
+      - "8000:8000"
+      - "7860:7860"
+    environment:
+      - DATABASE_URL=postgresql://admin:bankpassword@postgres_db:5432/bank_muscat_risk
+      - API_URL=http://127.0.0.1:8000
+    depends_on:
+      - postgres_db
+
+volumes:
+  pgdata:
