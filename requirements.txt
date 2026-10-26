@@ -5,6 +5,8 @@ fastapi
 uvicorn
 pydantic
 sqlalchemy
+psycopg2-binary
+psycopg[binary]
 pandas
 numpy
 scipy
@@ -13,4 +15,3 @@ matplotlib
 requests
 streamlit
 mlflow
-psycopg2-binary
