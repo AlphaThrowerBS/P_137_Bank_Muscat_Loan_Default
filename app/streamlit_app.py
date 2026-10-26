@@ -1,16 +1,17 @@
 import os
 import json
-import sqlite3
 import pandas as pd
 import requests
 import streamlit as st
+from sqlalchemy import text
+from app.database import get_db_engine
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODELS_DIR = os.path.join(BASE_DIR, "models")
 REPORTS_DIR = os.path.join(BASE_DIR, "reports")
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
-# Dynamic API endpoint: uses local 127.0.0.1 by default, or your Render/ECS cloud URL when set
+# Inside the same Docker container, FastAPI runs on 127.0.0.1:8000
 API_URL = os.getenv("API_URL", "http://127.0.0.1:8000").rstrip("/")
 
 st.set_page_config(
@@ -134,7 +135,6 @@ with tabs[0]:
 
                 st.subheader("🔍 Top SHAP Risk Drivers for This Applicant")
                 drivers_df = pd.DataFrame(data["top_shap_drivers"])
-                # Replaced deprecated use_container_width=True with width="stretch"
                 st.dataframe(drivers_df, width="stretch")
             else:
                 st.error(f"API Error ({res.status_code}): {res.text}")
@@ -180,20 +180,21 @@ with tabs[1]:
     else:
         st.warning("Train models first (`python src/2_train_models.py`) to view portfolio metrics.")
 
-    # Audit Log Viewer (reads local SQLite fallback)
-    db_file = os.path.join(DATA_DIR, "bank_muscat_audit.db")
-    if os.path.exists(db_file):
-        st.subheader("🗄️ Recent Real-Time Underwriting Audit Logs")
-        try:
-            with sqlite3.connect(db_file) as conn:
-                logs_df = pd.read_sql_query(
-                    "SELECT id, created_at, person_age, person_income, loan_amnt, loan_grade, default_probability, risk_tier, decision FROM loan_prediction_logs ORDER BY id DESC LIMIT 10",
-                    conn
-                )
-            if not logs_df.empty:
-                st.dataframe(logs_df, width="stretch")
-        except Exception:
-            pass
+    # Cloud PostgreSQL / Local SQLite Audit Log Viewer
+    st.subheader("🗄️ Recent Real-Time Underwriting Audit Logs (PostgreSQL / SQLite)")
+    try:
+        engine, _ = get_db_engine()
+        with engine.connect() as conn:
+            logs_df = pd.read_sql_query(
+                text("SELECT id, created_at, person_age, person_income, loan_amnt, loan_grade, default_probability, risk_tier, decision FROM loan_prediction_logs ORDER BY id DESC LIMIT 10"),
+                conn
+            )
+        if not logs_df.empty:
+            st.dataframe(logs_df, width="stretch")
+        else:
+            st.info("No loan evaluations logged yet. Score an applicant in Tab 1 to populate the database.")
+    except Exception as e:
+        st.warning(f"Audit log status: {e}")
 
 # ==========================================
 # TAB 3: EVIDENTLYAI DRIFT MONITOR
